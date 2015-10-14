@@ -4,6 +4,7 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
 	public float speed;
+	public float jumpspeed;
 	private Rigidbody2D playerbody;
 
 	// Use this for initialization
@@ -14,5 +15,8 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		playerbody.velocity = new Vector2 (speed, playerbody.velocity.y);
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			playerbody.velocity = new Vector2 (playerbody.velocity.x, jumpspeed);
+		}
 	}
 }
