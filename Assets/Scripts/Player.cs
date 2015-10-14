@@ -19,4 +19,10 @@ public class Player : MonoBehaviour {
 			playerbody.velocity = new Vector2 (playerbody.velocity.x, jumpspeed);
 		}
 	}
+
+	void OnTriggerEnter2D(Collider2D other){
+		if (other.tag == "Obstacle") {
+			Application.LoadLevel (Application.loadedLevel);
+		}
+	}
 }
