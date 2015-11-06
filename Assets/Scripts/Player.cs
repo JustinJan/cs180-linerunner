@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
 	public float jumpspeed;
 	private Rigidbody2D playerbody;
 	private bool holdjump;
+	public AudioClip jumpsound;
 	//private float distToGround;
 
 	// Use this for initialization
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			if(isGrounded ()){
 			    playerbody.velocity = new Vector2 (playerbody.velocity.x, jumpspeed);
+				AudioSource.PlayClipAtPoint(jumpsound, this.transform.position);
 				holdjump = true;
 			}
 		}
