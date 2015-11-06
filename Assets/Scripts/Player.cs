@@ -7,12 +7,12 @@ public class Player : MonoBehaviour {
 	public float jumpspeed;
 	private Rigidbody2D playerbody;
 	private bool holdjump;
-<<<<<<< HEAD
+
 	private Vector3 spawnPoint;
 	Animator anim;
-=======
+
 	public AudioClip jumpsound;
->>>>>>> d3a20c4486b7a5922ad04366b2ea792b4e755a4c
+
 	//private float distToGround;
 
 	// Use this for initialization
