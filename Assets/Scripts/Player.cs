@@ -70,11 +70,15 @@ public class Player : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-//		if (other.tag == "Obstacle") {
-//			Application.LoadLevel (Application.loadedLevel);
-//		}
-		transform.position = spawnPoint;
-	}
+        //		if (other.tag == "Obstacle") {
+        //			Application.LoadLevel (Application.loadedLevel);
+        //		}
+        //transform.position = spawnPoint;
+        if (other.gameObject.tag == "Obstacle")
+        {
+            Application.LoadLevel("Death");
+        }
+    }
 
 	bool isGrounded(){
 		if (playerbody.velocity.y == 0) {
