@@ -73,7 +73,12 @@ public class Player : MonoBehaviour {
 //		if (other.tag == "Obstacle") {
 //			Application.LoadLevel (Application.loadedLevel);
 //		}
-		transform.position = spawnPoint;
+//		transform.position = spawnPoint;
+
+		if (other.gameObject.tag == "Obstacle")
+		{
+			Application.LoadLevel("Death");
+		}
 	}
 
 	bool isGrounded(){
