@@ -75,7 +75,7 @@ public class Player : MonoBehaviour {
 //		}
 //		transform.position = spawnPoint;
 
-		if (other.gameObject.tag == "block")
+		if (other.gameObject.tag == "Obstacle")
 		{
 			Application.LoadLevel("Death");
 		}
