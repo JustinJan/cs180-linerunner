@@ -100,7 +100,7 @@ public class DisplayHighScore : MonoBehaviour {
             endless_display = endless_display + (i + 1) + ": " + Level_endless_scores[i] + "\n ";
         }
 
-        GUI.color = Color.black;
+        GUI.color = Color.white;
         GUI.Label(new Rect(20, 120, 400, 500), display1);
         GUI.Label(new Rect(120, 120, 400, 500), display2);
         GUI.Label(new Rect(220, 120, 400, 500), display3);
