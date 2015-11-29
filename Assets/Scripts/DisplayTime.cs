@@ -4,7 +4,7 @@ using System.Collections;
 public class DisplayTime : MonoBehaviour
 {
 	
-	public int playtime = 0; 
+	public  int playtime = 0; 
 	private int seconds = 0; 
 	private int minutes = 0; 
 	private int milliseconds = 0; 

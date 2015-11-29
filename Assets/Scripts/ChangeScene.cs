@@ -8,7 +8,8 @@ public class ChangeScene : MonoBehaviour {
 	public void ChangeToScene (string sceneToChangeTo){ 
 		if (sceneToChangeTo == "prevScene") {
 			Application.LoadLevel (getPrevLevel ());
-		} else {
+		} 
+		else {
 			Application.LoadLevel (sceneToChangeTo); 
 			setPrevLevel (sceneToChangeTo);
 		} 
