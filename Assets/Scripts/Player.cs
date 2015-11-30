@@ -79,6 +79,11 @@ public class Player : MonoBehaviour {
 		{
 			Application.LoadLevel("Death");
 		}
+		if (other.gameObject.tag == "finish")
+        {
+            DisplayHighScore.insert_Score(ChangeScene.prevScene, DisplayTime.playtime);
+            Application.LoadLevel("Finish");
+        }
 	}
 
 

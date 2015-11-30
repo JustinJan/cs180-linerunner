@@ -1,111 +1,142 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System;
-using System.IO;
 
 public class DisplayHighScore : MonoBehaviour {
+    private const int length = 30;
 
-    List<String> Level_1_scores = new List<String>();
-    List<String> Level_2_scores = new List<String>();
-    List<String> Level_3_scores = new List<String>();
-    List<String> Level_4_scores = new List<String>();
-    List<String> Level_5_scores = new List<String>();
-    List<String> Level_endless_scores = new List<String>();
-
-    int new_score;
-	
-    // Use this for initialization
-	void Start () {
-        intialize();
-	}
-
-    void intialize()
+    public static void insert_Score(string level, int score)
     {
-        string line;
-        string path = System.IO.Directory.GetCurrentDirectory();
-        //System.IO.StreamReader file1 = new System.IO.StreamReader(@path + "\\Assets\\Scripts\\Level1_hs.txt");
-        //System.IO.StreamReader file2 = new System.IO.StreamReader(@path + "\\Assets\\Scripts\\Level2_hs.txt");
-        //System.IO.StreamReader file3 = new System.IO.StreamReader(@path + "\\Assets\\Scripts\\Level3_hs.txt");
-        //System.IO.StreamReader file4 = new System.IO.StreamReader(@path + "\\Assets\\Scripts\\Level4_hs.txt");
-        //System.IO.StreamReader file5 = new System.IO.StreamReader(@path + "\\Assets\\Scripts\\Level5_hs.txt");
-        //System.IO.StreamReader file_endless = new System.IO.StreamReader(@path + "\\Assets\\Scripts\\Level_endless_hs.txt");
+        List<int> HighScores = new List<int>();
+        int start = 0;
 
-        System.IO.StreamReader file1 = new System.IO.StreamReader(@path + "/Assets/Scripts/Level1_hs.txt");
-        System.IO.StreamReader file2 = new System.IO.StreamReader(@path + "/Assets/Scripts/Level2_hs.txt");
-        System.IO.StreamReader file3 = new System.IO.StreamReader(@path + "/Assets/Scripts/Level3_hs.txt");
-        System.IO.StreamReader file4 = new System.IO.StreamReader(@path + "/Assets/Scripts/Level4_hs.txt");
-        System.IO.StreamReader file5 = new System.IO.StreamReader(@path + "/Assets/Scripts/Level5_hs.txt");
-        System.IO.StreamReader file_endless = new System.IO.StreamReader(@path + "/Assets/Scripts/Level_endless_hs.txt");
+        if(level == "levelx_britt")
+            start = 0;
+        else if(level == "levelx_justin")
+            start = 5;
+        else if(level == "levelx")
+            start = 10;
+        else if(level == "level_david")
+            start = 15;
+        else if(level == "level_Falcon")
+            start = 20;
+        else if(level == "level_endless")
+            start = 25;
 
-        while((line = file1.ReadLine()) != null)
+        for(int i = 0; i < 5; i++)
         {
-            Level_1_scores.Add(line);
+            int temp = PlayerPrefs.GetInt("HighScore" + (i + start) + "score");
+            HighScores.Add(temp);
         }
 
-        while ((line = file2.ReadLine()) != null)
+        if(HighScores[4] > score)
         {
-            Level_2_scores.Add(line);
+            HighScores[4] = score;
         }
-        
-        while ((line = file3.ReadLine()) != null)
+        HighScores.Sort(delegate(int x, int y)
         {
-            Level_3_scores.Add(line);
-        }
+            return x.CompareTo(y);
+        });
 
-        while ((line = file4.ReadLine()) != null)
+        for(int i = 0; i < 5; i++)
         {
-            Level_4_scores.Add(line);
-        }
-
-        while ((line = file5.ReadLine()) != null)
-        {
-            Level_5_scores.Add(line);
-        }
-
-        while ((line = file_endless.ReadLine()) != null)
-        {
-            Level_endless_scores.Add(line);
-        }
-
-        file1.Close();
-        file2.Close();
-        file3.Close();
-        file4.Close();
-        file5.Close();
-        file_endless.Close();
+            PlayerPrefs.SetInt("HighScore" + (i + start) + "score", HighScores[i]);
+        }        
     }
-	
-    void insert_Score(int level)
-    {
 
+    public static string format(int number)
+    {
+        int sec = 0;
+        int min = 0;
+        int millisec = 0;
+        int temp = 0;
+
+        if(number != 0)
+        {
+            temp = number;
+            millisec = (temp % 1000) / 10;
+            sec = (temp / 1000) % 60;
+            min = (temp / 60000) % 60;
+        }
+        string display = string.Format("{0:00}:{1:00}:{2:00}", min, sec, millisec);
+        return display;
+    }
+
+    public static string return_highscore()
+    {
+        int start = 0;
+
+        if(ChangeScene.prevScene == "levelx_britt")
+            start = 0;
+        else if(ChangeScene.prevScene == "levelx_justin")
+            start = 5;
+        else if(ChangeScene.prevScene == "levelx")
+            start = 10;
+        else if(ChangeScene.prevScene == "level_david")
+            start = 15;
+        else if(ChangeScene.prevScene == "level_Falcon")
+            start = 20;
+        else if(ChangeScene.prevScene == "level_endless")
+            start = 25;
+
+        return format(PlayerPrefs.GetInt("HighScore" + start + "score"));
+    }
+
+    void OnApplicationQuit()
+    {
+        PlayerPrefs.Save();
     }
 
     void OnGUI()
     {
-        string display1 = "Level 1: \n ";
-        string display2 = "Level 2: \n ";
-        string display3 = "Level 3: \n ";
-        string display4 = "Level 4: \n ";
-        string display5 = "Level 5: \n ";
-        string endless_display = "Endless Level: \n ";
+        string display1 = "Level 1: \n";
+        string display2 = "Level 2: \n";
+        string display3 = "Level 3: \n";
+        string display4 = "Level 4: \n";
+        string display5 = "Level 5: \n";
+        string endless_display = "Endless: \n";
 
-        for (int i = 0; i < Level_1_scores.Count; i++)
+        for (int i = 0; i < length; i++)
         {
-            display1 = display1 + (i + 1) + ": " + Level_1_scores[i] + "\n ";
-            display2 = display2 + (i + 1) + ": " + Level_2_scores[i] + "\n ";
-            display3 = display3 + (i + 1) + ": " + Level_3_scores[i] + "\n ";
-            display4 = display4 + (i + 1) + ": " + Level_4_scores[i] + "\n ";
-            display5 = display5 + (i + 1) + ": " + Level_5_scores[i] + "\n ";
-            endless_display = endless_display + (i + 1) + ": " + Level_endless_scores[i] + "\n ";
+            if(i < 5)
+            {
+                
+                display1 = display1 + (i + 1) + ":" + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
+            }
+            else if(i >= 5 && i < 10)
+            {
+                
+                display2 = display2 + (i + 1 - 5) + ":" + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
+            }
+            else if(i >= 10 && i < 15)
+            {
+                
+                display3 = display3 + (i + 1 - 10) + ":" + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
+            }
+            else if(i >= 15 && i < 20)
+            {
+                
+                display4 = display4 + (i + 1 - 15) + ":" + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
+            }
+            else if(i >= 20 && i < 25)
+            {
+                
+                display5 = display5 + (i + 1 - 20) + ":" + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
+            }
+            else if(i >= 25 && i < 30)
+            {
+                
+                endless_display = endless_display + (i + 1 - 25) + ":" + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
+            }
         }
 
-        GUI.color = Color.white;
-        GUI.Label(new Rect(20, 120, 400, 500), display1);
-        GUI.Label(new Rect(120, 120, 400, 500), display2);
-        GUI.Label(new Rect(220, 120, 400, 500), display3);
-        GUI.Label(new Rect(320, 120, 400, 500), display4);
-        GUI.Label(new Rect(420, 120, 400, 500), display5);
-        GUI.Label(new Rect(520, 120, 400, 500), endless_display);
+        GUI.color = Color.yellow;
+        GUI.skin.label.fontSize = 18;
+        GUI.Label(new Rect(115, 120, 400, 500), display1);
+        GUI.Label(new Rect(227, 120, 400, 500), display2);
+        GUI.Label(new Rect(339, 120, 400, 500), display3);
+        GUI.Label(new Rect(451, 120, 400, 500), display4);
+        GUI.Label(new Rect(563, 120, 400, 500), display5);
+        GUI.Label(new Rect(675, 120, 400, 500), endless_display);
     }
 }

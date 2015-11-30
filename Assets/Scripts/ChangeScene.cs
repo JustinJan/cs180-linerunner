@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ChangeScene : MonoBehaviour {
 
-	private static string prevScene;
+	public static string prevScene;
 
 	public void ChangeToScene (string sceneToChangeTo){ 
 		if (sceneToChangeTo == "prevScene") {
