@@ -5,10 +5,26 @@ using System.Collections.Generic;
 public class DisplayHighScore : MonoBehaviour {
     private const int length = 30;
 
-    public static void insert_Score(string level, int score)
+    static void position(List<int> l, int i)
+    {
+        for(int j = 4; j > i + 1; j--)
+        {
+            l[j] = l[j - 1];
+        }
+    }
+
+    static void Clear()
+    {
+        for(int i = 0; i < length; i++)
+            PlayerPrefs.DeleteKey("HighScore" + i + "score");
+    }
+
+    public static void insert_Score()
     {
         List<int> HighScores = new List<int>();
+        int score = DisplayTime.playtime;
         int start = 0;
+        string level = ChangeScene.prevScene;
 
         if(level == "levelx_britt")
             start = 0;
@@ -29,14 +45,15 @@ public class DisplayHighScore : MonoBehaviour {
             HighScores.Add(temp);
         }
 
-        if(HighScores[4] > score)
+        for(int i = 0; i < 5; i++)
         {
-            HighScores[4] = score;
+            if(HighScores[i] == 0 || HighScores[i] > score)
+            {
+                position(HighScores, i);
+                HighScores[i] = score;
+                break;
+            }
         }
-        HighScores.Sort(delegate(int x, int y)
-        {
-            return x.CompareTo(y);
-        });
 
         for(int i = 0; i < 5; i++)
         {
@@ -89,44 +106,44 @@ public class DisplayHighScore : MonoBehaviour {
 
     void OnGUI()
     {
-        string display1 = "Level 1: \n";
-        string display2 = "Level 2: \n";
-        string display3 = "Level 3: \n";
-        string display4 = "Level 4: \n";
-        string display5 = "Level 5: \n";
-        string endless_display = "Endless: \n";
+        string display1 = "   Level 1: \n";
+        string display2 = "   Level 2: \n";
+        string display3 = "   Level 3: \n";
+        string display4 = "   Level 4: \n";
+        string display5 = "   Level 5: \n";
+        string endless_display = "  Endless: \n";
 
         for (int i = 0; i < length; i++)
         {
             if(i < 5)
             {
                 
-                display1 = display1 + (i + 1) + ":" + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
+                display1 = display1 + (i + 1) + ": " + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
             }
             else if(i >= 5 && i < 10)
             {
                 
-                display2 = display2 + (i + 1 - 5) + ":" + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
+                display2 = display2 + (i + 1 - 5) + ": " + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
             }
             else if(i >= 10 && i < 15)
             {
                 
-                display3 = display3 + (i + 1 - 10) + ":" + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
+                display3 = display3 + (i + 1 - 10) + ": " + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
             }
             else if(i >= 15 && i < 20)
             {
                 
-                display4 = display4 + (i + 1 - 15) + ":" + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
+                display4 = display4 + (i + 1 - 15) + ": " + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
             }
             else if(i >= 20 && i < 25)
             {
                 
-                display5 = display5 + (i + 1 - 20) + ":" + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
+                display5 = display5 + (i + 1 - 20) + ": " + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
             }
             else if(i >= 25 && i < 30)
             {
                 
-                endless_display = endless_display + (i + 1 - 25) + ":" + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
+                endless_display = endless_display + (i + 1 - 25) + ": " + format(PlayerPrefs.GetInt("HighScore" + i + "score")) + "\n";
             }
         }
 

@@ -81,7 +81,7 @@ public class Player : MonoBehaviour {
 		}
 		if (other.gameObject.tag == "finish")
         {
-            DisplayHighScore.insert_Score(ChangeScene.prevScene, DisplayTime.playtime);
+            DisplayHighScore.insert_Score();
             Application.LoadLevel("Finish");
         }
 	}
