@@ -128,4 +128,16 @@ public class ShopScript : MonoBehaviour {
 			GUI.Label(new Rect(50, 70, 400, 50), "Not enough coins!");
 		}
 	}
+
+	public void setYellow(){
+		PlayerPrefs.SetString ("skin", "yellow");
+	}
+
+	public void setPink(){
+		PlayerPrefs.SetString ("skin", "pink");
+	}
+
+	public void setDefault(){
+		PlayerPrefs.SetString ("skin", "black");
+	}
 }
