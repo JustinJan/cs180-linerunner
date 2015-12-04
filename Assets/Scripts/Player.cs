@@ -7,6 +7,7 @@ public class Player : MonoBehaviour {
 	private float jumpspeed;
 	private Rigidbody2D playerbody;
 	private bool holdjump;
+	private bool wascrouched;
 
 	private Vector3 spawnPoint;
 	Animator anim;
@@ -38,39 +39,53 @@ public class Player : MonoBehaviour {
 		else 
 			anim.SetFloat("Speed", 1);
 
+		if (Input.touchCount > 0) {
+			foreach(Touch touch in Input.touches){
+				if (Input.GetTouch (0).phase == TouchPhase.Began && touch.position.x < Screen.width/2) {
+					anim.SetFloat ("Speed", 1);
+					if (isGrounded ()) {
+						playerbody.velocity = new Vector2 (playerbody.velocity.x, jumpspeed);
+						AudioSource.PlayClipAtPoint (jumpsound, this.transform.position);
+						holdjump = true;
+					}
+				}
+				if(Input.GetTouch (0).phase == TouchPhase.Began && touch.position.x > Screen.width/2){
+					transform.localScale = new Vector3(transform.localScale.x, .5f, 0);
+					playerbody.gravityScale = 22;
+					wascrouched = true;
+				}
+			}
+			if (holdjump) {
+				if (playerbody.velocity.y < 0) {
+					playerbody.gravityScale = 3;
+					//Debug.Log ("test");
+				}
+			}
 
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			anim.SetFloat("Speed", 1);
-			if(isGrounded ()){
-			    playerbody.velocity = new Vector2 (playerbody.velocity.x, jumpspeed);
-				AudioSource.PlayClipAtPoint(jumpsound, this.transform.position);
-				holdjump = true;
+			if(Input.GetTouch(0).phase == TouchPhase.Ended || Input.GetTouch(0).phase == TouchPhase.Canceled){
+				holdjump = false;
+				playerbody.gravityScale = 18;
+
+				if(wascrouched == true){
+					transform.localScale = new Vector3(transform.localScale.x, 1f, 0);
+					anim.SetFloat ("Speed", 0);
+					wascrouched = false;
+				}
 			}
 		}
-		if (holdjump) {
-			if(playerbody.velocity.y < 0){
-				playerbody.gravityScale = 3;
-				Debug.Log ("test");
-			}
-		}
-		if (Input.GetKeyUp (KeyCode.Space)) {
+		/*if (Input.GetKeyUp (KeyCode.Space)) {
 
 			playerbody.gravityScale = 18;
 			holdjump = false;
 		}
 
-		if (Input.GetKeyDown (KeyCode.LeftControl)) {
-			//transform.position = new Vector3(transform.position.x, .1f, 0);
-			transform.localScale = new Vector3(transform.localScale.x, .5f, 0);
-			playerbody.gravityScale = 22;
 
-		}
 		if (Input.GetKeyUp (KeyCode.LeftControl)) {
 			//transform.position = new Vector3(transform.position.x, .5f, 0);
 			transform.localScale = new Vector3(transform.localScale.x, 1f, 0);
 			playerbody.gravityScale = 18;
 			anim.SetFloat("Speed", 0);
-		}
+		}*/
 
 	}
 
