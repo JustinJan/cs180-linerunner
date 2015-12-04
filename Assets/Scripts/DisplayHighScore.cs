@@ -45,13 +45,29 @@ public class DisplayHighScore : MonoBehaviour {
             HighScores.Add(temp);
         }
 
-        for(int i = 0; i < 5; i++)
+        if(level != "level_endless")
         {
-            if(HighScores[i] == 0 || HighScores[i] > score)
+            for(int i = 0; i < 5; i++)
             {
-                position(HighScores, i);
-                HighScores[i] = score;
-                break;
+                if(HighScores[i] == 0 || HighScores[i] > score)
+                {
+                    position(HighScores, i);
+                    HighScores[i] = score;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            if(HighScores[4] < score)
+            {
+                HighScores[4] = score;
+                HighScores.Sort(
+                    delegate(int x, int y)
+                    {
+                        return x.CompareTo(y);
+                    }
+                );
             }
         }
 
