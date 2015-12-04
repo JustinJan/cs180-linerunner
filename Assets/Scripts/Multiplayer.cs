@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-//using playerNamespace;
-using UnityEngine.Networking;
 
-public class Multiplayer : NetworkBehaviour
+public class Multiplayer : MonoBehaviour
 {
 	private float lastSynchronizationTime = 0f;
 	private float syncDelay = 0f;
@@ -59,8 +57,7 @@ public class Multiplayer : NetworkBehaviour
 	
 	void Update()
 	{
-		//if (GetComponent<NetworkView>().isMine)
-		if(isLocalPlayer)
+		if (GetComponent<NetworkView>().isMine)
 		{
 			InputMovement();
 			//InputColorChange();
