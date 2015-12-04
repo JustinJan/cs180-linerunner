@@ -24,10 +24,27 @@ public class Player : MonoBehaviour {
 		//distToGround = GetComponent<Collider2D>().bounds.extents.y;
 		holdjump = false;
 		anim = GetComponent <Animator> ();
-		speed = 16;
-		jumpspeed = 32;
-		shielded = 1;
-		Time.timeScale = .5f;
+		if (PlayerPrefs.GetInt ("Jump") == 1) {
+			jumpspeed = 40;
+		} else {
+			jumpspeed = 32;
+		}
+		if (PlayerPrefs.GetInt ("Shield") == 1) {
+			shielded = 1;
+		} else {
+			shielded = 0;
+			GameObject.Find ("Shield").SetActive (false);
+		}
+		if (PlayerPrefs.GetInt ("Slow") == 1) {
+			Time.timeScale = .7f;
+		} else {
+			Time.timeScale = 1f;
+		}
+		if (PlayerPrefs.GetInt ("Dash") == 1) {
+			speed = 24;
+		} else {
+			speed = 14;
+		}
 	}
 	
 	// Update is called once per frame

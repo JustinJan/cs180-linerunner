@@ -6,6 +6,10 @@ public class ChangeScene : MonoBehaviour {
 	public static string prevScene;
 
 	public void ChangeToScene (string sceneToChangeTo){ 
+		if (sceneToChangeTo == "MainMenu") {
+			DisplayTime.resetTime();
+		}
+
 		if (sceneToChangeTo == "prevScene") {
 			Application.LoadLevel (getPrevLevel ());
 		} 
