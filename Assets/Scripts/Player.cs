@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-	public float speed;
-	public float jumpspeed;
+	private float speed;
+	private float jumpspeed;
 	private Rigidbody2D playerbody;
 	private bool holdjump;
 
@@ -23,7 +23,10 @@ public class Player : MonoBehaviour {
 		//distToGround = GetComponent<Collider2D>().bounds.extents.y;
 		holdjump = false;
 		anim = GetComponent <Animator> ();
+		speed = 16;
+		jumpspeed = 32;
 		shielded = 1;
+		Time.timeScale = .5f;
 	}
 	
 	// Update is called once per frame
