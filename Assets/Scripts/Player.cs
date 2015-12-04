@@ -13,6 +13,7 @@ public class Player : MonoBehaviour {
 
 	public AudioClip jumpsound;
 
+	private int shielded;
 	//private float distToGround;
 
 	// Use this for initialization
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour {
 		//distToGround = GetComponent<Collider2D>().bounds.extents.y;
 		holdjump = false;
 		anim = GetComponent <Animator> ();
+		shielded = 1;
 	}
 	
 	// Update is called once per frame
@@ -77,7 +79,14 @@ public class Player : MonoBehaviour {
 
 		if (other.gameObject.tag == "Obstacle")
 		{
+			Debug.Log ("collided with "+other.gameObject.name);
+			if(shielded > 0){
+				shielded--;
+				GameObject.Find ("Shield").SetActive (false);
+			}
+			else{
 			Application.LoadLevel("Death");
+			}
 		}
 		if (other.gameObject.tag == "finish")
         {
@@ -89,6 +98,14 @@ public class Player : MonoBehaviour {
 
 	bool isGrounded(){
 		if (playerbody.velocity.y == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public bool isShielded(){
+		if (shielded > 0) {
 			return true;
 		} else {
 			return false;
